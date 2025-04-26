@@ -12,6 +12,12 @@ Sau khi cài đặt Python, mở Terminal (Command Prompt) và chạy lệnh sau
 ```bash
 pip install pandas
 ```
+```bash
+python -m pip install pymongo
+```
+```bash
+pip install -U scikit-learn
+```
 
 ## Chạy trương trình
 
@@ -19,4 +25,7 @@ pip install pandas
 python3 view_pkl.py
 ```
 
+
 #### Chạy file python để có dữ liệu data movies, users, genres
+
+
