@@ -10,13 +10,7 @@
 Sau khi cài đặt Python, mở Terminal (Command Prompt) và chạy lệnh sau để cài đặt các thư viện cần thiết:
 
 ```bash
-pip install pandas
-```
-```bash
-python -m pip install pymongo
-```
-```bash
-pip install -U scikit-learn
+pip install -r requirements.txt
 ```
 
 ## Chạy trương trình
