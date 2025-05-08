@@ -122,12 +122,21 @@ def recommend_movies(user_id, user_profiles, movies_genres, movies_df):
         movie_fields = [
             "_id", "tmdbId", "title", "originalTitle", "overview", "posterPath",
             "backdropPath", "genreIds", "releaseDate", "voteAverage", "voteCount",
-            "popularity", "originalLanguage", "adult", "video", "status"
+            "popularity", "originalLanguage", "adult", "video", "status", "activePeriod"
         ]
 
         for field in movie_fields:
             if field not in movies_df.columns:
                 movies_df[field] = None
+
+        # Chuyển đổi activePeriod thành chuỗi nếu tồn tại
+        if "activePeriod" in movies_df.columns:
+            movies_df["activePeriod"] = movies_df["activePeriod"].apply(
+                lambda x: {
+                    "start": x["start"].strftime('%Y-%m-%d %H:%M:%S') if x and "start" in x and pd.notna(x["start"]) else None,
+                    "end": x["end"].strftime('%Y-%m-%d %H:%M:%S') if x and "end" in x and pd.notna(x["end"]) else None
+                } if isinstance(x, dict) else None
+            )
 
         if user_id not in user_profiles.index:
             # Nếu người dùng không có lịch sử, trả về tất cả phim, sắp xếp theo popularity
@@ -135,6 +144,10 @@ def recommend_movies(user_id, user_profiles, movies_genres, movies_df):
             movies["match_count"] = 0
             movies["similarity"] = 0.0
             movies = movies.sort_values(by="popularity", ascending=False)
+            # Chuyển đổi cột datetime thành chuỗi trước khi trả về
+            for col in ['releaseDate']:
+                if col in movies.columns:
+                    movies[col] = movies[col].astype(str)
             return movies[movie_fields + ["match_count", "similarity"]].to_dict(orient="records")
 
         # Lấy các thể loại ưu tiên của người dùng (các thể loại có giá trị > 0)
@@ -146,6 +159,10 @@ def recommend_movies(user_id, user_profiles, movies_genres, movies_df):
             movies["match_count"] = 0
             movies["similarity"] = 0.0
             movies = movies.sort_values(by="popularity", ascending=False)
+            # Chuyển đổi cột datetime thành chuỗi trước khi trả về
+            for col in ['releaseDate']:
+                if col in movies.columns:
+                    movies[col] = movies[col].astype(str)
             return movies[movie_fields + ["match_count", "similarity"]].to_dict(orient="records")
 
         # Tính số thể loại khớp cho mỗi phim
@@ -190,9 +207,17 @@ def recommend_movies(user_id, user_profiles, movies_genres, movies_df):
             remaining_movies["match_count"] = 0
             remaining_movies["similarity"] = 0.0
             remaining_movies = remaining_movies.sort_values(by="popularity", ascending=False)
+            # Chuyển đổi cột datetime thành chuỗi trước khi trả về
+            for col in ['releaseDate']:
+                if col in remaining_movies.columns:
+                    remaining_movies[col] = remaining_movies[col].astype(str)
             return remaining_movies[movie_fields + ["match_count", "similarity"]].to_dict(orient="records")
 
         recommendations = pd.concat(grouped_movies, ignore_index=True)
+        # Chuyển đổi cột datetime thành chuỗi trước khi trả về
+        for col in ['releaseDate']:
+            if col in recommendations.columns:
+                recommendations[col] = recommendations[col].astype(str)
         return recommendations[movie_fields + ["match_count", "similarity"]].to_dict(orient="records")
 
     except Exception as e:
