@@ -1,24 +1,19 @@
 services:
   - type: web
     name: recommendationmovies
-    runtime: node
+    runtime: docker
+    dockerfilePath: ./Dockerfile
     region: singapore
     plan: free
     branch: main
     rootDir: .
-    buildCommand: |
-      apt-get update && apt-get install -y python3-dev gcc g++ && \
-      pip install --upgrade pip setuptools wheel && \
-      npm install && npm run build && \
-      pip install -r requirements.txt
-    startCommand: node dist/server.js
     envVars:
       - key: PORT
         value: 5000
       - key: CORS_ORIGIN
-        value: https://zero-movie-frontend.onrender.com
+        value: "*"
       - key: PYTHON_PATH
-        value: python3
+        value: /usr/bin/python3.10
       - key: TMDB_API_KEY
         value: 089e206e52ab82845bf53efa520c2bf5
       - key: MONGO_URI
