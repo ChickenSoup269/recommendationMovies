@@ -1,3 +1,7 @@
 pandas
 pymongo
 scikit-learn
+flask
+numpy
+requests
+gunicorn

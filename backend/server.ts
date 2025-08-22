@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
+import express, { Request, Response, NextFunction, ErrorRequestHandler } from 'express';import cors from "cors";
 import recommendationRoutes from "./recommendationRoutes";
 import dotenv from "dotenv";
+
 
 dotenv.config();
 
@@ -17,8 +17,7 @@ app.use(express.json());
 
 app.use("/api/movies", recommendationRoutes);
 
-app.use((err, req, res, next) => {
-  console.error("Unexpected error:", err);
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {  console.error("Unexpected error:", err);
   res.status(500).json({ error: "Internal server error" });
 });
 
