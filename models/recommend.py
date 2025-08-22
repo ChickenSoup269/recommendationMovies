@@ -5,9 +5,11 @@ import requests
 import os
 from pymongo import MongoClient
 from sklearn.metrics.pairwise import cosine_similarity
+from dotenv import load_dotenv
 
 sys.stdout.reconfigure(encoding='utf-8')
 sys.stderr.reconfigure(encoding='utf-8')
+load_dotenv()
 
 # Hàm lấy danh sách thể loại từ API của TMDB
 def get_genre_mapping(api_key):
@@ -21,10 +23,10 @@ def get_genre_mapping(api_key):
         print(f"Error fetching genres from TMDB: {response.status_code}", file=sys.stderr)
         sys.exit(1)
 
-TMDB_API_KEY = "089e206e52ab82845bf53efa520c2bf5"
+TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 genre_mapping = get_genre_mapping(TMDB_API_KEY)
 
-MONGO_URI = "mongodb+srv://kaosks123:9twPZGXzg4k3Yik1@capstonemovie.kkqwq.mongodb.net/?retryWrites=true&w=majority&appName=capstoneMovie"
+MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI)
 db = client["test"]
 
