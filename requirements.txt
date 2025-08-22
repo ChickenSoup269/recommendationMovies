@@ -1,7 +1,7 @@
-pandas
-pymongo
-scikit-learn
-flask
-numpy
-requests
-gunicorn
+flask==3.0.3
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.5.1
+pymongo==4.8.0
+requests==2.32.3
+gunicorn==22.0.0
