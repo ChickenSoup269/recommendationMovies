@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node server.ts",
+    "dev": "ts-node backend/server.ts",
     "build": "tsc",
-    "start": "node backend/dist/server.js"  
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.1",
+    "@types/express": "^5.0.3",
     "@types/node": "^22.14.1",
     "typescript": "^5.8.3"
   }
